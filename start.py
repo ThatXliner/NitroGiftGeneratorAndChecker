@@ -3,7 +3,7 @@ import webbrowser
 import time
 import requests
 import os
-
+from typing import Iterator
 RED   = "\x1b[31m"
 GREEN = "\x1b[32m"
 RESET = "\x1b[0m"
@@ -38,40 +38,30 @@ print("""
 time.sleep(2)
 print("Creator  -  Zafros  (Forked by ThatXliner)")
 time.sleep(0.3)
-print("\nZafros: https://github.com/Zafros56\nThatXliner: https://github.com/ThatXliner\n")
+print("\n", RED, "Zafros: https://github.com/Zafros56", "\n", GREEN, "ThatXliner: https://github.com/ThatXliner\n", RESET)
 time.sleep(0.2)
 
 num = input('Input How Many Codes to Generate and Check: ')
 
-f=open("Nitro Codes.txt","w", encoding='utf-8')
+print("Generating...")
 
-print("Wait, Generating for you!")
-
-for n in range(int(num)):
-   y = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
-   f.write('https://discord.gift/')
-   f.write(y)
-   f.write("\n")
-
-f.close()
+def generate_codes(times: int) -> Iterator[str]:
+      for code in range(times):
+            for length in range(16):
+                  yield 'https://discord.gift/' + ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase))
 
 #=============Checker=========================
 
 print("Checking validity!", BOLD)
 
 with open("Nitro Codes.txt") as f:
-    for line in f:
-        nitro = line.strip("\n")
-
-        url = "https://discordapp.com/api/v6/entitlements/gift-codes/" + nitro + "?with_application=false&with_subscription_plan=true"
-
-        r = requests.get(url)
-
-        if r.status_code == 200:
-            print(GREEN, " Valid | {} ".format(line.strip("\n")))
+    for line in generate_codes(int(num)):
+        url = "https://discordapp.com/api/v6/entitlements/gift-codes/" + line + "?with_application=false&with_subscription_plan=true"
+        if requests.get(url).status_code == 200:
+            print(GREEN, " Valid | {} ".format(line))
             break
         else:
-        	print(RED, " Invalid | {} ".format(line.strip("\n")))
+        	print(RED, " Invalid | {} ".format(line))
 print(RESET)
 input("The end! Press Enter 5 times to close the program.")
 input("4")
