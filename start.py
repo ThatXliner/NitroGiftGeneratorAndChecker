@@ -1,6 +1,6 @@
-import random, string
+import random
+import string
 import webbrowser
-import time
 import requests
 import os
 from typing import Iterator
@@ -8,7 +8,7 @@ RED   = "\x1b[31m"
 GREEN = "\x1b[32m"
 RESET = "\x1b[0m"
 BOLD  = "\x1b[1m"
-
+VALID = string.ascii_uppercase + string.digits + string.ascii_lowercase
 if os.name == 'nt':  # Windows
       from colorama import init
       init()
@@ -35,11 +35,8 @@ print("""
 ╚═██╔═╝██║░░██╗██╔══██║██╔══╝░░██║░░██╗██╔═██╗░██╔══╝░░██╔══██╗
 ░░╚═╝░░╚█████╔╝██║░░██║███████╗╚█████╔╝██║░╚██╗███████╗██║░░██║
 ░░░░░░░░╚════╝░╚═╝░░╚═╝╚══════╝░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝""")
-time.sleep(2)
 print("Creator  -  Zafros  (Forked by ThatXliner)")
-time.sleep(0.3)
 print("\n", RED, "Zafros: https://github.com/Zafros56", "\n", GREEN, "ThatXliner: https://github.com/ThatXliner\n", RESET)
-time.sleep(0.2)
 
 num = input('Input How Many Codes to Generate and Check: ')
 
@@ -48,8 +45,7 @@ print("Generating...")
 def generate_codes(times: int) -> Iterator[str]:
       for code in range(times):
             output = 'https://discord.gift/'
-            for length in range(16):
-                  output += random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase)
+            output += ''.join((random.choice(VALID) for _ in range(16)))
             yield output
 
 #=============Checker=========================
