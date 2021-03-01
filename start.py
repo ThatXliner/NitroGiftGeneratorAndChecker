@@ -47,8 +47,10 @@ print("Generating...")
 
 def generate_codes(times: int) -> Iterator[str]:
       for code in range(times):
+            output = 'https://discord.gift/'
             for length in range(16):
-                  yield 'https://discord.gift/' + ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase))
+                  output += random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase)
+            yield output
 
 #=============Checker=========================
 
